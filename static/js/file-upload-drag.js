@@ -1,9 +1,7 @@
-function file_upload() {
-    let file_label = document.getElementById('file-label');
-    let file = $('#selected-file')[0].files[0];
-    if (file) {
-        file_label.textContent = file.name;
+let file;
 
+function file_upload() {
+    if (file) {
         let form = new FormData();
         let dataURL;
 
@@ -30,5 +28,15 @@ function file_upload() {
             xmlHTTP.send(form);
         };
         file_reader.readAsDataURL(file);
+    } else {
+        alert('You must select an image!');
+    }
+}
+
+function filename_update() {
+    file = $('#selected-file')[0].files[0];
+    let file_label = document.getElementById('file-label');
+    if (file) {
+        file_label.textContent = file.name;
     }
 }
