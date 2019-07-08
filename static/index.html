@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <title>Riley-Face-Recognition</title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-image: url('https://mdbootstrap.com/img/Photos/Others/img%20%2848%29.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100%;
+        }
+
+        .background-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3333);
+            z-index: -1;
+        }
+
+        hr {
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+<div class="background-mask">
+</div>
+<div class="container h-75">
+    <div class="row h-25"></div>
+    <div class="row align-self-center w-auto">
+        <div class="col-auto mx-auto">
+            <h1 class="display-2 text-white text-center text-nowrap">Face Recognition</h1>
+            <hr class="my-4 text-white font-weight-bolder">
+        </div>
+    </div>
+    <div class="row align-self-center justify-content-center mx-auto w-75">
+        <div class="col-auto w-50">
+            <div class="custom-file">
+                <input type="file" accept="image/*"
+                       class="custom-file-input" id="selected-file" onchange="file_upload()" required>
+                <label class="custom-file-label" for="selected-file" id="file-label">Choose An Image..</label>
+            </div>
+        </div>
+        <div class="col-auto w-auto">
+            <button type="button" class="btn btn-primary" onclick="file_upload()">Upload</button>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/file-upload-drag.js"></script>
+</body>
+</html>
