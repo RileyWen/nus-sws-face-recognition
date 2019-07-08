@@ -17,10 +17,10 @@ def base64_to_img(img):
 def process_img():
     img_b64 = request.form['image'].split(',')[1]
 
-    # print(img_b64)
+    print(img_b64)
 
     return 'received!'
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port='2333', debug=True)
