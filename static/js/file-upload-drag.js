@@ -1,6 +1,12 @@
 let file;
+let img_show = false;
 
 function file_upload() {
+    if (img_show) {
+        $("#result-img-card").fadeOut("4000");
+        img_show = false;
+    }
+
     if (file) {
         let form = new FormData();
         let dataURL;
@@ -19,6 +25,11 @@ function file_upload() {
 
                         let img = document.getElementById("result-img");
                         img.src = resp_text;
+
+                        if (!img_show) {
+                            $("#result-img-card").delay(200).fadeIn("4000");
+                            img_show = true;
+                        }
                     } else {
                         console.log(xmlHTTP.responseText);
                     }

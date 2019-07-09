@@ -1,2 +1,3 @@
 flask
 ibm-watson
+opencv-python
