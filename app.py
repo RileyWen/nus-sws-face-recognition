@@ -14,7 +14,7 @@ def hello_world():
     return app.send_static_file('index.html')
 
 
-def add_frame_on_face(faces):
+def add_frame_on_face(faces) -> bytes:
     img = cv.imread('img_tmp/img')
 
     # print(faces)
@@ -27,14 +27,24 @@ def add_frame_on_face(faces):
         y2 = y1 + location['height']
         cv.rectangle(img, (x1, y1), (x2, y2), (48, 185, 98), 2)
 
-    cv.imshow('image', img)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    # cv.imshow('image', img)
+    # cv.waitKey(0)
+    # cv.destroyAllWindows()
+
+    _, img_bytes = cv.imencode('.jpg', img)
+    img_b64 = base64.b64encode(img_bytes)
+
+    # print(img_b64)
+
+    return img_b64
 
 
 @app.route('/UploadPic', methods=['POST'])
 def process_img():
-    img_b64 = request.form['image'].split(',')[1]
+    # print(request.form['image'])
+    request_split = request.form['image'].split(',')
+    img_url_header = request_split[0]
+    img_b64 = request_split[1]
     img = base64.b64decode(img_b64)
 
     with open('img_tmp/img', 'wb') as file:
@@ -48,10 +58,12 @@ def process_img():
 
     faces = result['images'][0]['faces']
     # Notice that we upload only one image
-    add_frame_on_face(faces)
+    modified_img_b64_str = str(add_frame_on_face(faces), 'utf-8')
 
-    return 'received!'
+    ret = img_url_header + ',' + modified_img_b64_str
+    print(ret)
+    return ret
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='2333', debug=True)
+    app.run(host='0.0.0.0', port='2333')

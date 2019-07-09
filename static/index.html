@@ -3,39 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <link href="css/bootstrap.css" rel="stylesheet">
-    <title>Riley-Face-Recognition</title>
-    <style>
-        html {
-            height: 100%;
-        }
-
-        body {
-            background-image: url('https://mdbootstrap.com/img/Photos/Others/img%20%2848%29.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100%;
-        }
-
-        .background-mask {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3333);
-            z-index: -1;
-        }
-
-        hr {
-            border: 1px solid white;
-        }
-    </style>
+    <link href="css/index.css" rel="stylesheet">
+    <script src="js/jquery-3.4.1.js"></script>
+    <title>Face-Recognition</title>
+    <script>
+        $(document).ready(function () {
+            $("#container").delay(200).fadeIn("4000");
+        })
+    </script>
 </head>
 <body>
 <div class="background-mask">
 </div>
-<div class="container h-75">
+<div class="container h-75" id="container" style="display: none">
     <div class="row h-25"></div>
     <div class="row align-self-center w-auto">
         <div class="col-auto mx-auto">
@@ -55,8 +35,15 @@
             <button type="button" class="btn btn-primary" onclick="file_upload()">Upload</button>
         </div>
     </div>
+    <div class="row h-10"></div>
+    <div class="row align-self-center justify-content-center mx-auto w-auto">
+        <div class="col-auto w-auto">
+            <div class="card">
+                <img id="result-img" class="card-img-top" src="..." alt="Wait To Recognize Image...">
+            </div>
+        </div>
+    </div>
 </div>
-<script src="https://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/file-upload-drag.js"></script>
 </body>

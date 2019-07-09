@@ -14,10 +14,12 @@ function file_upload() {
             xmlHTTP.onreadystatechange = function () {
                 if (xmlHTTP.readyState === 4) {
                     if (xmlHTTP.status === 200) {
-                        // alert(xmlHTTP.responseText);
+                        let resp_text = xmlHTTP.responseText;
                         console.log(xmlHTTP.responseText);
+
+                        let img = document.getElementById("result-img");
+                        img.src = resp_text;
                     } else {
-                        // alert(xmlHTTP.responseText);
                         console.log(xmlHTTP.responseText);
                     }
                 }

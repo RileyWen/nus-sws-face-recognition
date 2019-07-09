@@ -1,0 +1,29 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-image: url('../resources/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+.background-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3333);
+    z-index: -1;
+}
+
+hr {
+    border: 1px solid white;
+}
+
+.h-10 {
+    height: 10% !important;
+}
