@@ -5,7 +5,7 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
     <script src="js/jquery-3.4.1.js"></script>
-    <title>Face-Recognition</title>
+    <title>Subtitle·G</title>
     <script>
         $(document).ready(function () {
             $("#container").delay(200).fadeIn("4000");
@@ -19,16 +19,16 @@
     <div class="row h-25"></div>
     <div class="row align-self-center w-auto">
         <div class="col-auto mx-auto">
-            <h1 class="display-2 text-white text-center text-nowrap">Face Recognition</h1>
+            <h1 class="display-2 text-white text-center text-nowrap">Subtitle·G</h1>
             <hr class="my-4 text-white font-weight-bolder">
         </div>
     </div>
     <div class="row align-self-center justify-content-center mx-auto w-75">
         <div class="col-auto w-50">
             <div class="custom-file">
-                <input type="file" accept="image/*"
+                <input type="file" accept="video/*"
                        class="custom-file-input" id="selected-file" onchange="filename_update()" required>
-                <label class="custom-file-label" for="selected-file" id="file-label">Choose An Image..</label>
+                <label class="custom-file-label" for="selected-file" id="file-label">Choose An Video..</label>
             </div>
         </div>
         <div class="col-auto w-auto">
@@ -39,11 +39,25 @@
     <div class="row align-self-center justify-content-center mx-auto w-auto">
         <div class="col-auto w-auto">
             <div id="result-img-card" class="card" style="display: none">
-                <img id="result-img" class="card-img-top" src="..." alt="Wait To Recognize Image...">
+                <video id="result-video" width="320" height="240">
+                    <source src="..." type="video/ogg">
+                    <source src="..." type="video/mp4">
+                    <source src="..." type="video/webm">
+                    <object data="..." width="320" height="240">
+                        <embed width="320" height="240" src="...">
+                </video>
+                <div class="progressFrame"><div class="progress"></div></div>
+                <!--img id="result-video" class="card-img-top" src="..." alt="Wait To Recognize Image..."-->
             </div>
         </div>
     </div>
+    
 </div>
+<footer class="footer text-center">
+    <div class="container">
+      <p class="text-muted small mb-0">Copyright &copy; Subtitle·G</p>
+    </div>
+  </footer>
 <script src="js/bootstrap.js"></script>
 <script src="js/file-upload-drag.js"></script>
 </body>

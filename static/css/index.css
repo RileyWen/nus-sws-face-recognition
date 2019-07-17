@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background-image: url('../resources/bg.jpg');
+    background-image: url('../resources/bk1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -27,3 +27,39 @@ hr {
 .h-10 {
     height: 10% !important;
 }
+footer.footer {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  footer.footer .social-link {
+    display: block;
+    height: 4rem;
+    width: 4rem;
+    line-height: 4.3rem;
+    font-size: 1.5rem;
+    background-color: #1d809f;
+    -webkit-transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
+    -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+  }
+  footer.footer .social-link:hover {
+    background-color: #155d74;
+    text-decoration: none;
+  }
+  .progressFrame {
+    width: 300px;
+    height: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: #cecece;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  .progress {
+    width: 0px;
+    height: 9.5px;
+    background: salmon;
+  }
