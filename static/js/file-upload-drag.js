@@ -28,6 +28,7 @@ function file_upload() {
                             data_to_base64 += window.btoa(resp_text);
                             let button = document.getElementById("button-download");
                             button.href = data_to_base64;
+                            jQuery('#button-download').fadeIn(500);
                         }
                     } else {
                         console.log("上传失败！");
@@ -59,6 +60,7 @@ function filename_update() {
 
     file = $('#selected-file')[0].files[0];
     console.log(file);
+    jQuery('#button-download').fadeOut(500);
     let file_label = document.getElementById('file-label');
     if (file) {
         file_label.textContent = file.name;
