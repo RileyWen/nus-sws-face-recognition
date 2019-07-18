@@ -6,14 +6,14 @@ function file_upload() {
     console.log(file);
 
     if (file) {
-        let form = new FormData();
-        let dataURL;
-
         let file_reader = new FileReader();
         file_reader.onloadend = function () {
+            let form = new FormData();
+            let dataURL;
+
             dataURL = file_reader.result;
             console.log(dataURL);
-            form.append('file', file);
+            form.append('file', dataURL);
             
 
             let xmlHTTP = new XMLHttpRequest();

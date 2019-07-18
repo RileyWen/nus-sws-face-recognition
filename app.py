@@ -85,16 +85,18 @@ def process_img():
     audio_path = 'img_tmp/audio'
 
     request_split = request.form['file'].split(',')
-    audio_url_header = request_split[0]
+    audio_url_header = 'base64,'  # request_split[0]
     audio_b64 = request_split[1]
     audio = base64.b64decode(audio_b64)
 
     with open(audio_path, 'wb') as file:
         file.write(audio)
 
-    srt = google_api(audio_path)
+    srt = audio_url_header + google_api(audio_path)
 
-    return srt
+    print(audio_path + srt)
+
+    return audio_url_header + srt
 
 
 if __name__ == '__main__':
