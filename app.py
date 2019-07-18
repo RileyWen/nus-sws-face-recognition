@@ -1,12 +1,77 @@
 from flask import Flask, request
 import base64
-from ibm_watson import VisualRecognitionV3
+import re
+import io
 import json
-import cv2 as cv
-
-visual_recognition = VisualRecognitionV3('2018-03-19', iam_apikey='LEzLPAGHwS9dPAzZytHjUQ7xxYifVETSBF5IviM_t03R')
+from google.cloud import speech_v1p1beta1 as speech
 
 app = Flask(__name__, static_url_path='')
+
+
+def srtformatter(response):
+    num = 0
+    srt = ''
+    for i, result in enumerate(response.results):
+        alternative = result.alternatives[0]
+        transcript = alternative.transcript
+        # 以句号，问号，感叹号分割文本
+        s_list = re.split('[，,.。？?!]', transcript.strip())
+
+        count_begin = 0
+        count_end = -1
+        word_list = []
+        for word_info in alternative.words:
+            word_list.append(word_info)
+            pass
+        for sentence in s_list:
+            word = sentence.split(' ')
+            if '' in word:
+                word.remove('')
+            count_begin = count_end + 1
+            count_end = count_begin + len(word) - 1
+            begin_time = word_list[count_begin].start_time.seconds + word_list[count_begin].start_time.nanos * 1e-9
+            end_time = word_list[count_end].start_time.seconds + word_list[count_end].start_time.nanos * 1e-9
+            begin_h = int(begin_time // 3600)
+            bh = "{:0>2d}".format(begin_h)
+            begin_m = int((begin_time - 3600 * begin_h) // 60)
+            bm = "{:0>2d}".format(begin_m)
+            begin_s = int(begin_time - 3600 * begin_h - 60 * begin_m)
+            bs = "{:0>2d}".format(begin_s)
+            begin_ms = begin_time - int(begin_time)
+            bms = "{:.3f}".format(begin_ms)[2:]
+            end_h = int(end_time // 3600)
+            eh = "{:0>2d}".format(end_h)
+            end_m = int((end_time - 3600 * end_h) // 60)
+            em = "{:0>2d}".format(end_m)
+            end_s = int(end_time - 3600 * end_h - 60 * end_m)
+            es = "{:0>2d}".format(end_s)
+            end_ms = end_time - int(end_time)
+            ems = "{:.3f}".format(end_ms)[2:]
+            time = bh + ':' + bm + ':' + bs + ',' + bms + ' --> ' + eh + ':' + em + ':' + es + ',' + ems + '\n'
+            srt += str(num) + '\n' + time + sentence + '\n\n'
+            num = num + 1
+            pass
+    return srt
+
+
+def google_api(speech_file: str):
+    client = speech.SpeechClient()
+
+    with io.open(speech_file, 'rb') as audio_file:
+        content = audio_file.read()
+
+    audio = speech.types.RecognitionAudio(content=content)
+    config = speech.types.RecognitionConfig(
+        encoding=speech.enums.RecognitionConfig.AudioEncoding.MP3,
+        sample_rate_hertz=8000,
+        language_code='en-US',
+        # Enable automatic punctuation
+        enable_automatic_punctuation=True, enable_word_time_offsets=True)
+
+    response = client.recognize(config, audio)
+    srt = srtformatter(response)
+    # print(srt)
+    return str
 
 
 @app.route('/')
@@ -14,55 +79,22 @@ def hello_world():
     return app.send_static_file('index.html')
 
 
-def add_frame_on_face(faces) -> bytes:
-    img = cv.imread('img_tmp/img')
-
-    # print(faces)
-
-    for face in faces:
-        location = face['face_location']
-        x1 = location['left']
-        y1 = location['top']
-        x2 = x1 + location['width']
-        y2 = y1 + location['height']
-        cv.rectangle(img, (x1, y1), (x2, y2), (48, 185, 98), 2)
-
-    # cv.imshow('image', img)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows()
-
-    _, img_bytes = cv.imencode('.jpg', img)
-    img_b64 = base64.b64encode(img_bytes)
-
-    # print(img_b64)
-
-    return img_b64
-
-
-@app.route('/UploadPic', methods=['POST'])
+@app.route('/UploadAudio', methods=['POST'])
 def process_img():
     # print(request.form['image'])
-    request_split = request.form['image'].split(',')
-    img_url_header = request_split[0]
-    img_b64 = request_split[1]
-    img = base64.b64decode(img_b64)
+    audio_path = 'img_tmp/audio'
 
-    with open('img_tmp/img', 'wb') as file:
-        file.write(img)
+    request_split = request.form['file'].split(',')
+    audio_url_header = request_split[0]
+    audio_b64 = request_split[1]
+    audio = base64.b64decode(audio_b64)
 
-    with open('img_tmp/img', 'rb') as file:
-        result = visual_recognition.detect_faces(file).get_result()
-        pass
+    with open(audio_path, 'wb') as file:
+        file.write(audio)
 
-    # print(json.dumps(result, indent=2))
+    srt = google_api(audio_path)
 
-    faces = result['images'][0]['faces']
-    # Notice that we upload only one image
-    modified_img_b64_str = str(add_frame_on_face(faces), 'utf-8')
-
-    ret = img_url_header + ',' + modified_img_b64_str
-    print(ret)
-    return ret
+    return srt
 
 
 if __name__ == '__main__':
