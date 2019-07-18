@@ -25,6 +25,13 @@ function file_upload() {
                         console.log(xmlHTTP.responseText);
                         let video = document.getElementById("result-video");
                         video.src = resp_text;
+                        if(resp_text){
+                            url_stated='data:application/octet-stream;charset=utf-8;'
+                            //url_stated+=...
+                            $(".download").attr('herf','url_stated');
+                            $("#download").html('Download');
+                            
+                        }
                     } else {
                         console.log("上传失败！");
                         console.log(xmlHTTP.responseText);
@@ -32,8 +39,6 @@ function file_upload() {
                 }
             };
             xmlHTTP.open('post', 'UploadAudio');   
-            // alert(dataURL;
-            // xmlHTTP.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             console.log(form);
             xmlHTTP.send(form);
         };
