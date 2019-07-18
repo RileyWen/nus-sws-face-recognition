@@ -33,24 +33,26 @@
         </div>
         <div class="col-auto w-auto">
             <button type="button" class="btn btn-primary" onclick="file_upload()">Upload</button>
-            <button class="btn btn-primary" id="download"><a class="download" href=""></a>Downloading...</button>
+            <a id="button-download" href="#" class="btn btn-primary" download="Subtitle.srt">Download</a>
         </div>
     </div>
     <div class="row h-10"></div>
     <div class="row align-self-center justify-content-center mx-auto w-auto">
         <div class="col-auto w-auto">
             <div id="result-img-card" class="card" style="display: none">
-                <div class="progressFrame"><div class="progress"></div></div>
+                <div class="progressFrame">
+                    <div class="progress"></div>
+                </div>
                 <!--img id="result-video" class="card-img-top" src="..." alt="Wait To Recognize Image..."-->
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 <footer class="footer text-center">
     <div class="container">
-      <p class="text-muted small mb-0">Copyright &copy; Subtitle·G</p>
+        <p class="text-muted small mb-0">Copyright &copy; Subtitle·G</p>
     </div>
-  </footer>
+</footer>
 <script src="js/bootstrap.js"></script>
 <script src="js/file-upload-drag.js"></script>
 </body>

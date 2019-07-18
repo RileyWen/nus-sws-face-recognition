@@ -14,7 +14,7 @@ function file_upload() {
             dataURL = file_reader.result;
             console.log(dataURL);
             form.append('file', dataURL);
-            
+
 
             let xmlHTTP = new XMLHttpRequest();
             xmlHTTP.onreadystatechange = function () {
@@ -23,14 +23,11 @@ function file_upload() {
                         console.log('上传成功！');
                         let resp_text = xmlHTTP.responseText;
                         console.log(xmlHTTP.responseText);
-                        let video = document.getElementById("result-video");
-                        video.src = resp_text;
-                        if(resp_text){
-                            url_stated='data:application/octet-stream;charset=utf-8;'
-                            //url_stated+=...
-                            $(".download").attr('herf','url_stated');
-                            $("#download").html('Download');
-                            
+                        if (resp_text) {
+                            let data_to_base64 = 'data:application/octet-stream;charset=utf-8;base64,';
+                            data_to_base64 += window.btoa(resp_text);
+                            let button = document.getElementById("button-download");
+                            button.href = data_to_base64;
                         }
                     } else {
                         console.log("上传失败！");
@@ -38,17 +35,17 @@ function file_upload() {
                     }
                 }
             };
-            xmlHTTP.open('post', 'UploadAudio');   
+            xmlHTTP.open('post', 'UploadAudio');
             console.log(form);
             xmlHTTP.send(form);
         };
         file_reader.readAsDataURL(file);
 
         //进度条
-        file_reader.addEventListener("progress",e=>{
-            document.querySelector('.progress').style.width=(e.loaded/e.total)*100+'%'
+        file_reader.addEventListener("progress", e => {
+            document.querySelector('.progress').style.width = (e.loaded / e.total) * 100 + '%'
         });
-        file_reader.addEventListener('error',err=>{
+        file_reader.addEventListener('error', err => {
             throw err;
         });
     } else {
@@ -59,7 +56,7 @@ function file_upload() {
 }
 
 function filename_update() {
-    
+
     file = $('#selected-file')[0].files[0];
     console.log(file);
     let file_label = document.getElementById('file-label');

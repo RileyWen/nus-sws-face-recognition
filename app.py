@@ -70,8 +70,7 @@ def google_api(speech_file: str):
 
     response = client.recognize(config, audio)
     srt = srtformatter(response)
-    # print(srt)
-    return str
+    return srt
 
 
 @app.route('/')
@@ -92,11 +91,10 @@ def process_img():
     with open(audio_path, 'wb') as file:
         file.write(audio)
 
-    srt = audio_url_header + google_api(audio_path)
+    srt = google_api(audio_path)
+    # srt = 'This is a test!'
 
-    print(audio_path + srt)
-
-    return audio_url_header + srt
+    return srt
 
 
 if __name__ == '__main__':
