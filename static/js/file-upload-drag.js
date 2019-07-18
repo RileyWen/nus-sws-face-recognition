@@ -31,7 +31,7 @@ function file_upload() {
                     }
                 }
             };
-            xmlHTTP.open('post', '');   
+            xmlHTTP.open('post', 'UploadAudio');   
             // alert(dataURL;
             // xmlHTTP.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             console.log(form);
