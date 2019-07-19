@@ -9,7 +9,7 @@ app = Flask(__name__, static_url_path='')
 
 
 def srtformatter(response):
-    num = 0
+    num = 1
     srt = ''
     for i, result in enumerate(response.results):
         alternative = result.alternatives[0]
@@ -25,32 +25,33 @@ def srtformatter(response):
             pass
         for sentence in s_list:
             word = sentence.split(' ')
-            if '' in word:
-                word.remove('')
-            count_begin = count_end + 1
-            count_end = count_begin + len(word) - 1
-            begin_time = word_list[count_begin].start_time.seconds + word_list[count_begin].start_time.nanos * 1e-9
-            end_time = word_list[count_end].start_time.seconds + word_list[count_end].start_time.nanos * 1e-9
-            begin_h = int(begin_time // 3600)
-            bh = "{:0>2d}".format(begin_h)
-            begin_m = int((begin_time - 3600 * begin_h) // 60)
-            bm = "{:0>2d}".format(begin_m)
-            begin_s = int(begin_time - 3600 * begin_h - 60 * begin_m)
-            bs = "{:0>2d}".format(begin_s)
-            begin_ms = begin_time - int(begin_time)
-            bms = "{:.3f}".format(begin_ms)[2:]
-            end_h = int(end_time // 3600)
-            eh = "{:0>2d}".format(end_h)
-            end_m = int((end_time - 3600 * end_h) // 60)
-            em = "{:0>2d}".format(end_m)
-            end_s = int(end_time - 3600 * end_h - 60 * end_m)
-            es = "{:0>2d}".format(end_s)
-            end_ms = end_time - int(end_time)
-            ems = "{:.3f}".format(end_ms)[2:]
-            time = bh + ':' + bm + ':' + bs + ',' + bms + ' --> ' + eh + ':' + em + ':' + es + ',' + ems + '\n'
-            srt += str(num) + '\n' + time + sentence + '\n\n'
-            num = num + 1
-            pass
+            if sentence != '':
+                if '' in word:
+                    word.remove('')
+                count_begin = count_end + 1
+                count_end = count_begin + len(word) - 1
+                begin_time = word_list[count_begin].start_time.seconds + word_list[count_begin].start_time.nanos * 1e-9
+                end_time = word_list[count_end].start_time.seconds + word_list[count_end].start_time.nanos * 1e-9
+                begin_h = int(begin_time // 3600)
+                bh = "{:0>2d}".format(begin_h)
+                begin_m = int((begin_time - 3600 * begin_h) // 60)
+                bm = "{:0>2d}".format(begin_m)
+                begin_s = int(begin_time - 3600 * begin_h - 60 * begin_m)
+                bs = "{:0>2d}".format(begin_s)
+                begin_ms = begin_time - int(begin_time)
+                bms = "{:.3f}".format(begin_ms)[2:]
+                end_h = int(end_time // 3600)
+                eh = "{:0>2d}".format(end_h)
+                end_m = int((end_time - 3600 * end_h) // 60)
+                em = "{:0>2d}".format(end_m)
+                end_s = int(end_time - 3600 * end_h - 60 * end_m)
+                es = "{:0>2d}".format(end_s)
+                end_ms = end_time - int(end_time)
+                ems = "{:.3f}".format(end_ms)[2:]
+                time = bh + ':' + bm + ':' + bs + ',' + bms + ' --> ' + eh + ':' + em + ':' + es + ',' + ems + '\n'
+                srt += str(num) + '\n' + time + sentence + '\n\n'
+                num = num + 1
+                pass
     return srt
 
 
@@ -75,7 +76,10 @@ def google_api(speech_file: str):
 
 @app.route('/')
 def hello_world():
-    return app.send_static_file('index.html')
+    return app.send_static_file('landing_page/index.html')
+
+
+DEBUG = True
 
 
 @app.route('/UploadAudio', methods=['POST'])
@@ -91,8 +95,14 @@ def process_img():
     with open(audio_path, 'wb') as file:
         file.write(audio)
 
-    srt = google_api(audio_path)
-    # srt = 'This is a test!'
+    if DEBUG:
+        with open('C:\\Users\\riley\\Desktop\\NUS-SWS\\SWS3004 - Cloud Computing\\1_minute_video.srt') as file:
+            srt = file.read()
+
+        import time
+        time.sleep(2)
+    else:
+        srt = google_api(audio_path)
 
     return srt
 
