@@ -1,5 +1,6 @@
 let file;
 let video_show = false;
+let language="English";
 
 function file_upload() {
     file = $('#selected-file')[0].files[0];
@@ -10,6 +11,7 @@ function file_upload() {
         file_reader.onloadend = function () {
             let form = new FormData();
             let dataURL;
+           
 
             dataURL = file_reader.result;
             console.log(dataURL);
@@ -65,4 +67,10 @@ function filename_update() {
     if (file) {
         file_label.textContent = file.name;
     }
+}
+
+function translation_lang(){
+    console.log(language);
+    language=$('#select option:selected').val();
+    console.log(language);
 }

@@ -33,10 +33,28 @@
         </div>
         <div class="col-auto w-auto">
             <button type="button" class="btn btn-primary" onclick="file_upload()">Upload</button>
-            <a id="button-download" href="#" class="btn btn-primary"
-               download="Subtitle.srt" style="display: none">Download</a>
         </div>
     </div>
+    <div class="row h-10"></div>
+    <div class="row align-self-center justify-content-center mx-auto w-75">
+        <div class="col-auto w-50">
+                <form role="form">
+                        <div class="form-group w-auto">
+                          <select id="select" class="form-control" onchange="translation_lang()"> 
+                            <option value="English">English</option> 
+                            <option value="Chinese">Chinese</opton> 
+                            <option value="Korean">Korean</option>  
+                            </select>
+                        </div>
+                </form>
+        </div>
+        <div class="col-auto w-auto">
+            <a id="button-download" href="#" class="btn btn-primary" role="group"
+                download="Subtitle.srt" style="display: none">Download</a>
+        </div>
+        
+    </div>
+    
     <div class="row h-10"></div>
     <div class="row align-self-center justify-content-center mx-auto w-auto">
         <div class="col-auto w-auto">
