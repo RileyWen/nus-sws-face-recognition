@@ -70,7 +70,6 @@ function filename_update() {
 }
 
 function translation_lang(){
-    console.log(language);
     language=$('#select option:selected').val();
     console.log(language);
 }
