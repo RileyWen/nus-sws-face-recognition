@@ -4,6 +4,7 @@ import re
 import io
 import json
 from google.cloud import speech_v1p1beta1 as speech
+from google.cloud import translate_v3beta1 as translate
 
 app = Flask(__name__, static_url_path='')
 
@@ -55,7 +56,7 @@ def srtformatter(response):
     return srt
 
 
-def google_api(speech_file: str):
+def google_voice_recognition(speech_file: str):
     client = speech.SpeechClient()
 
     with io.open(speech_file, 'rb') as audio_file:
@@ -74,9 +75,33 @@ def google_api(speech_file: str):
     return srt
 
 
+def google_translate(text_list_to_translate: list):
+    client = translate.TranslationServiceClient()
+    project_id = 'ivory-honor-230713'
+
+    # project_id = YOUR_PROJECT_ID
+    # text = 'Text you wish to translate'
+    location = 'global'
+
+    parent = client.location_path(project_id, location)
+
+    response = client.translate_text(
+        parent=parent,
+        contents=['This is a Test!', 'This is my name?'],
+        mime_type='text/plain',  # mime types: text/plain, text/html
+        source_language_code='en-US',
+        target_language_code='zh-CN')
+
+    translated_text = []
+    for translation in response.translations:
+        # print('Translated Text: {}'.format(translation.translated_text))
+        translated_text.append(translation.translated_text)
+        print(translated_text)
+
+
 @app.route('/')
 def hello_world():
-    return app.send_static_file('landing_page/index.html')
+    return app.send_static_file('index.html')
 
 
 DEBUG = True
@@ -102,8 +127,9 @@ def process_img():
         import time
         time.sleep(2)
     else:
-        srt = google_api(audio_path)
+        srt = google_voice_recognition(audio_path)
 
+    google_translate([])
     return srt
 
 
