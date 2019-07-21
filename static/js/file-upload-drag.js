@@ -27,7 +27,8 @@ function file_upload() {
                         console.log(xmlHTTP.responseText);
                         if (resp_text) {
                             let data_to_base64 = 'data:application/octet-stream;charset=utf-8;base64,';
-                            data_to_base64 += window.btoa(resp_text);
+                            // data_to_base64 += window.btoa(resp_text);
+                            data_to_base64 += resp_text;
                             let button = document.getElementById("button-download");
                             button.href = data_to_base64;
                             jQuery('#button-download').fadeIn(500);
