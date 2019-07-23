@@ -10,4 +10,5 @@
 4. Set up the **python 3** virtual environment, enter it and run `pip install -r requirements.txt`
 5. Set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to the path of json file in **Step 3**
     - Under Linux it can be `export GOOGLE_APPLICATION_CREDENTIALS=/path/to/credential.json`
-6. run `python app.py` to start the server
+6. Create a directory `img_tmp` under the root of the project.
+7. run `python app.py` to start the server
