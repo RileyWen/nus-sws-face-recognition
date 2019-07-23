@@ -181,6 +181,9 @@ def process_img():
     # print(request.form['image'])
     audio_path = 'img_tmp/audio'
 
+    file_name = request.form['file_name'].split('.')[0]
+    print(file_name)
+
     request_split = request.form['file'].split(',')
     audio_url_header = 'base64,'  # request_split[0]
     audio_b64 = request_split[1]
@@ -189,12 +192,20 @@ def process_img():
     with open(audio_path, 'wb') as file:
         file.write(audio)
 
+    srt = ''
     if DEBUG:
-        with open('C:\\Users\\riley\\Desktop\\NUS-SWS\\SWS3004 - Cloud Computing\\1_minute_video.srt') as file:
-            srt = file.read()
+        try:
+            with open('C:\\Users\\riley\\Desktop\\NUS-SWS\\SWS3004 - Cloud Computing\\'
+                      + file_name + '.srt', encoding='utf-8') as file:
+                srt = file.read()
 
-        import time
-        time.sleep(2)
+            srt = base64.b64encode(srt.encode("utf-8")).decode("utf-8")
+            print(srt)
+
+            import time
+            time.sleep(2)
+        except Exception as e:
+            print("Error When Reading Cache: " + str(e))
     else:
         srt = google_voice_recognition(audio_path)
 

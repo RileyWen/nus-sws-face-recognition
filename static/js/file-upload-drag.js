@@ -1,6 +1,7 @@
 let file;
+let file_name;
 let video_show = false;
-let language="English";
+let language = "English";
 
 function file_upload() {
     file = $('#selected-file')[0].files[0];
@@ -11,10 +12,11 @@ function file_upload() {
         file_reader.onloadend = function () {
             let form = new FormData();
             let dataURL;
-           
+
 
             dataURL = file_reader.result;
             console.log(dataURL);
+            form.append('file_name', file_name);
             form.append('file', dataURL);
 
 
@@ -31,6 +33,7 @@ function file_upload() {
                             data_to_base64 += resp_text;
                             let button = document.getElementById("button-download");
                             button.href = data_to_base64;
+                            button.download = file_name.split('.')[0] + '.srt';
                             jQuery('#button-download').fadeIn(500);
                         }
                     } else {
@@ -67,10 +70,11 @@ function filename_update() {
     let file_label = document.getElementById('file-label');
     if (file) {
         file_label.textContent = file.name;
+        file_name = file.name;
     }
 }
 
-function translation_lang(){
-    language=$('#select option:selected').val();
+function translation_lang() {
+    language = $('#select option:selected').val();
     console.log(language);
 }

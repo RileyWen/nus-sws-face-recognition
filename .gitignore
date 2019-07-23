@@ -3,3 +3,4 @@ img_tmp/*
 .idea/workspace.xml
 __pycache__/
 !/.gitignore
+!/img_tmp/
